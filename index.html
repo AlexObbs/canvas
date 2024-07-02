@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Generator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #canvasContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #downloadButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            /* Ensure it's on top of other elements */
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            #canvasContainer {
+                height: 70vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvasContainer">
+        <canvas id="mapCanvas" width="800" height="600"></canvas>
+    </div>
+    <button id="downloadButton">Download</button>
+
+    <script>
+        // Adjust canvas size by reducing it by 5%
+        function adjustCanvasSize() {
+            const canvas = document.getElementById('mapCanvas');
+            const originalWidth = 800; // Set your desired width
+            const originalHeight = 600; // Set your desired height
+
+            canvas.width = originalWidth * 0.95;
+            canvas.height = originalHeight * 0.95;
+
+            // Redraw the map after resizing the canvas
+            drawMap();
+        }
+
+        // Function to draw the map on the canvas
+        function drawMap() {
+            const canvas = document.getElementById('mapCanvas');
+            const context = canvas.getContext('2d');
+
+            // Clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Example map drawing (replace with your actual map drawing logic)
+            context.fillStyle = 'blue';
+            context.fillRect(50, 50, canvas.width - 100, canvas.height - 100);
+            context.fillStyle = 'green';
+            context.fillRect(100, 100, canvas.width - 200, canvas.height - 200);
+        }
+
+        // Function to handle the download of the canvas image
+        function downloadImage() {
+            const canvas = document.getElementById('mapCanvas');
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'map.png';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Add event listeners
+        window.addEventListener('load', adjustCanvasSize);
+        document.getElementById('downloadButton').addEventListener('click', downloadImage);
+    </script>
+</body>
+
+</html>
